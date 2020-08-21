@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
+import { togglePath } from '../actions';
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -64,7 +66,7 @@ type SectionElement = {
 };
 
 const baseElements: SectionElement[] = [
-  { title: 'Ma Journée', key: 'day', icon: <WbSunnyIcon /> },
+  { title: 'Ma Journée', key: 'myDay', icon: <WbSunnyIcon /> },
   { title: 'Notes', key: 'notes', icon: <NoteIcon /> },
   { title: 'Lectures', key: 'lectures', icon: <MenuBookIcon /> },
   {
@@ -79,7 +81,7 @@ const baseElements: SectionElement[] = [
   },
 ];
 
-function MainMenu() {
+function MainMenu({ dispatch }: any) {
   const classes = useStyles();
   const [listSections, setListSections] = useState<SectionElement[]>([]);
   const [lastSectionNbre, setLastSectionNbre] = useState(0);
@@ -161,6 +163,7 @@ function MainMenu() {
 
     setListSections(newListSection);
   }
+
   return (
     <Drawer
       className={classes.drawer}
@@ -174,7 +177,11 @@ function MainMenu() {
         <div className={classes.listContainer}>
           <List>
             {baseElements.map((oneSectionElement) => (
-              <ListItem button key={oneSectionElement.key}>
+              <ListItem
+                button
+                key={oneSectionElement.key}
+                onClick={() => dispatch(togglePath(oneSectionElement.key))}
+              >
                 <ListItemIcon>{oneSectionElement.icon}</ListItemIcon>
                 <ListItemText primary={oneSectionElement.title} />
               </ListItem>
@@ -333,4 +340,4 @@ function generateKey(pre: string) {
   return `${pre}_${new Date().getTime()}`;
 }
 
-export default MainMenu;
+export default connect()(MainMenu);
