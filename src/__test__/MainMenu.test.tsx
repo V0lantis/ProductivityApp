@@ -7,12 +7,13 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import MainMenu from '../components/MainMenu';
+import store from '../store';
 
 describe('<MainMenu />', () => {
   it('should renders a new Section when clicking on New Section', () => {
     const CPTCLICKS = 5;
     const sectionName = /Section sans titre/i;
-    render(<MainMenu />);
+    render(<MainMenu store={store} />);
     expect(screen.queryAllByText(sectionName).length).toBe(0);
 
     let index = 0;
@@ -30,7 +31,7 @@ describe('<MainMenu />', () => {
   });
 
   it('should renders a `context menu` when right clicking on a section', () => {
-    render(<MainMenu />);
+    render(<MainMenu store={store} />);
     fireEvent.click(screen.getByText(/Nouvelle Section/i));
 
     expect(screen.queryByText(/Rename/)).toBeNull();
@@ -43,7 +44,7 @@ describe('<MainMenu />', () => {
   });
 
   test('`context menu` should vanish when clicking on a item', () => {
-    render(<MainMenu />);
+    render(<MainMenu store={store} />);
 
     fireEvent.click(screen.getByText(/Nouvelle Section/i));
     fireEvent.click(screen.getByText(/Nouvelle Section/i));
@@ -65,7 +66,7 @@ describe('<MainMenu />', () => {
   });
 
   // test('`context menu` should vanish when clicking outside of it', () => {
-  //   render(<MainMenu />);
+  //   render(<MainMenu store={store} />);
   //   fireEvent.click(screen.getByText(/Nouvelle Section/i));
   //   fireEvent.contextMenu(screen.getByText(/Section sans titre/i));
 
@@ -78,7 +79,7 @@ describe('<MainMenu />', () => {
   // });
 
   it('should show a dialog message when cliking on removing', async () => {
-    render(<MainMenu />);
+    render(<MainMenu store={store} />);
     fireEvent.click(screen.getByText(/Nouvelle Section/i));
     fireEvent.contextMenu(screen.getByText(/Section sans titre/i));
     fireEvent.click(screen.getByText(/Remove/i));
@@ -105,7 +106,7 @@ describe('<MainMenu />', () => {
   });
 
   test('Section Renaming', async () => {
-    render(<MainMenu />);
+    render(<MainMenu store={store} />);
     fireEvent.click(screen.getByText(/Nouvelle Section/i));
     fireEvent.contextMenu(screen.getByText(/Section sans titre/i));
     fireEvent.click(screen.getByText(/Rename/i));

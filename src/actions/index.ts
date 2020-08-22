@@ -1,3 +1,3 @@
-import { togglePath } from './togglePath';
+import { togglePath } from './selectedPath';
 
 export { togglePath };
